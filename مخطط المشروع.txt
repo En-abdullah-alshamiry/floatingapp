@@ -1,0 +1,67 @@
+floating/
+│
+├── lib/                          ← الكود الأساسي (كل الكود هنا)
+│   │
+│   ├── main.dart                 ← نقطة الدخول (تشغيل التطبيق)
+│   │
+│   ├── config/                   ← الإعدادات والتكوين
+│   │   ├── app_colors.dart       ← كل الألوان (ذهبي، أسود، تدرجات)
+│   │   ├── app_theme.dart        ← الثيمات (Light/Dark) والخطوط
+│   │   ├── app_text.dart         ← أنماط النصوص والخطوط
+│   │   └── routes.dart           ← نظام التنقل بين الشاشات (21 مسار)
+│   │
+│   ├── l10n/                     ← الترجمة (تعدد اللغات)
+│   │   ├── app_localizations.dart ← إدارة اللغات
+│   │   ├── app_ar.dart           ← كل النصوص بالعربية
+│   │   └── app_en.dart           ← كل النصوص بالإنجليزية
+│   │
+│   ├── data/                     ← البيانات
+│   │   └── mock_data.dart        ← 18 منتج + 6 أقسام + طلبات + عروض
+│   │
+│   ├── providers/                ← إدارة الحالة (State Management)
+│   │   ├── theme_provider.dart   ← إدارة الثيم (فاتح/داكن/نظام)
+│   │   ├── locale_provider.dart  ← إدارة اللغة (عربي/إنجليزي)
+│   │   ├── cart_provider.dart    ← إدارة السلة والخصومات
+│   │   └── favorites_provider.dart ← إدارة المفضلة
+│   │
+│   ├── models/                   ← (نماذج إضافية، اختيارية)
+│   │   └── (5 ملفات)
+│   │
+│   ├── widgets/                  ← مكونات معاد استخدامها
+│   │   ├── product_card.dart     ← بطاقة المنتج
+│   │   ├── category_card.dart    ← بطاقة القسم
+│   │   ├── banner_carousel.dart  ← كاروسيل العروض
+│   │   ├── section_header.dart   ← ترويسة الأقسام
+│   │   ├── empty_state.dart      ← حالة الفراغ
+│   │   └── loading_shimmer.dart  ← مؤشر التحميل
+│   │
+│   └── screens/                  ← كل الشاشات (17 ملف)
+│       ├── splash_screen.dart        ← الافتتاحية
+│       ├── onboarding_screen.dart    ← شاشة التعريف
+│       ├── home_screen.dart          ← الرئيسية
+│       ├── categories_screen.dart    ← الأقسام
+│       ├── product_listing_screen.dart ← قائمة المنتجات
+│       ├── product_details_screen.dart ← تفاصيل المنتج
+│       ├── search_screen.dart        ← البحث
+│       ├── favorites_screen.dart     ← المفضلة
+│       ├── cart_screen.dart          ← السلة
+│       ├── checkout_screen.dart      ← إتمام الطلب
+│       ├── orders_screen.dart        ← الطلبات
+│       ├── profile_screen.dart       ← الحساب والإعدادات
+│       ├── notifications_screen.dart ← الإشعارات
+│       ├── addresses_screen.dart     ← العناوين
+│       ├── edit_profile_screen.dart  ← تعديل الملف
+│       ├── payment_methods_screen.dart ← طرق الدفع
+│       └── about_screen.dart         ← حول التطبيق
+│
+├── android/          ← إعدادات نظام أندرويد (تلقائي)
+├── web/              ← إعدادات الويب (تلقائي)
+├── pubspec.yaml      ← الاعتماديات والحزم المستخدمة
+├── analysis_options.yaml ← إعدادات فحص الكود
+└── AGENTS.md         ← 
+
+تعليمات المشروع
+
+
+
+https://opncd.ai/share/FTlB78LK

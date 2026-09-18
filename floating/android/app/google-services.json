@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "673285910349",
+    "project_id": "floatingapp-24d64",
+    "storage_bucket": "floatingapp-24d64.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673285910349:android:0ccc6234804560364a1104",
+        "android_client_info": {
+          "package_name": "com.binaflow.fashion_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673285910349-0f5iqm51ful264h58o2d50p64dd9jm15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.binaflow.fashion_app",
+            "certificate_hash": "f1ec2a65ab5e7579fb6a7b2a4bc1218cb66e051a"
+          }
+        },
+        {
+          "client_id": "673285910349-lk2auke8druen1q0e18pgr3qj0767j2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTnIZrj0UV6E-56R4CUW4FC8VrZayGOJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673285910349-lk2auke8druen1q0e18pgr3qj0767j2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

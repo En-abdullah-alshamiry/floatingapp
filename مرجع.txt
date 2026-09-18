@@ -1,0 +1,760 @@
+# BinaFlow – Fashion E-Commerce App
+
+## سجل التطوير والتعديلات
+
+---
+
+## 1. معلومات المشروع
+
+**اسم المشروع:** BinaFlow
+**نوع المشروع:** Fashion E-Commerce Mobile Application
+**Framework:** Flutter
+**المنصة الأساسية:** Android
+**اللغة:** Dart
+**Backend / Services:** Firebase
+**Authentication:** Firebase Authentication
+**Database:** Firestore عند الحاجة
+**State Management:** Provider
+**Local Storage:** SharedPreferences / Hive حسب الاستخدام
+**Localization:** Arabic / English
+**Theme:** Light / Dark / System
+
+---
+
+# 2. هدف المشروع
+
+تطبيق متجر أزياء حديث يسمح للمستخدم بـ:
+
+* إنشاء حساب.
+* تسجيل الدخول.
+* تصفح المنتجات.
+* مشاهدة تفاصيل المنتجات.
+* إضافة المنتجات إلى السلة.
+* إضافة المنتجات إلى المفضلة.
+* تغيير اللغة.
+* تغيير المظهر.
+* إدارة الملف الشخصي.
+* استخدام Firebase Authentication.
+* إمكانية تطويره لاحقًا لربطه ببيانات حقيقية من Firestore أو API.
+
+---
+
+# 3. التقنيات المستخدمة
+
+## Flutter
+
+تم استخدام Flutter لبناء تطبيق Android.
+
+## Dart
+
+لغة البرمجة المستخدمة في المشروع.
+
+## Firebase Authentication
+
+تستخدم في:
+
+* إنشاء الحسابات.
+* تسجيل الدخول.
+* إدارة جلسة المستخدم.
+
+## Firestore
+
+يمكن استخدامه لاحقًا لتخزين:
+
+* المنتجات.
+* المستخدمين.
+* الطلبات.
+* المفضلة.
+* البنرات.
+* البيانات الديناميكية.
+
+## Provider
+
+يستخدم لإدارة حالة التطبيق، مثل:
+
+* ThemeProvider
+* LocaleProvider
+* CartProvider
+* FavoritesProvider
+
+## SharedPreferences
+
+يستخدم لحفظ إعدادات بسيطة مثل:
+
+* اللغة.
+* بعض التفضيلات.
+
+## Hive
+
+يستخدم للتخزين المحلي عند الحاجة.
+
+---
+
+# 4. الترجمة
+
+التطبيق يدعم:
+
+* العربية.
+* الإنجليزية.
+
+ويتم تحديد اللغة باستخدام:
+
+```dart
+l10n.isArabic
+```
+
+كما يدعم اتجاه الواجهة:
+
+```text
+Arabic → RTL
+English → LTR
+```
+
+---
+
+# 5. الثيم
+
+التطبيق يدعم:
+
+```text
+Light
+Dark
+System
+```
+
+ويتم التحكم في الثيم من خلال:
+
+```text
+ThemeProvider
+```
+
+---
+
+# 6. مشكلة mock_data.dart و BannerCarousel
+
+## المشكلة
+
+كان الملف:
+
+```text
+lib/widgets/banner_carousel.dart
+```
+
+يعتمد على:
+
+```text
+lib/data/mock_data.dart
+```
+
+عن طريق:
+
+```dart
+import '../data/mock_data.dart';
+```
+
+وكان يستخدم:
+
+```dart
+BannerItem
+```
+
+وقائمة:
+
+```dart
+banners
+```
+
+بعد حذف:
+
+```text
+lib/data/mock_data.dart
+```
+
+ظهرت الأخطاء:
+
+```text
+Target of URI doesn't exist:
+'../data/mock_data.dart'
+
+The name 'BannerItem' isn't a type
+
+Undefined name 'banners'
+```
+
+---
+
+# 7. القرار
+
+تم الإبقاء على:
+
+```text
+lib/widgets/banner_carousel.dart
+```
+
+وعدم حذفه، لأنه مسؤول عن عرض البنرات في الصفحة الرئيسية.
+
+---
+
+# 8. تعديل BannerCarousel
+
+تم إزالة:
+
+```dart
+import '../data/mock_data.dart';
+```
+
+وأصبح `BannerCarousel` مستقلًا عن `mock_data.dart`.
+
+---
+
+# 9. إنشاء BannerItem
+
+تم إنشاء نموذج البنر داخل:
+
+```text
+lib/widgets/banner_carousel.dart
+```
+
+ويحتوي على:
+
+```text
+titleAr
+titleEn
+subtitleAr
+subtitleEn
+image
+discountCode
+```
+
+مثال:
+
+```dart
+class BannerItem {
+  const BannerItem({
+    required this.titleAr,
+    required this.titleEn,
+    required this.subtitleAr,
+    required this.subtitleEn,
+    required this.image,
+    this.discountCode,
+  });
+
+  final String titleAr;
+  final String titleEn;
+  final String subtitleAr;
+  final String subtitleEn;
+  final String image;
+  final String? discountCode;
+}
+```
+
+---
+
+# 10. إنشاء defaultBanners
+
+تم إنشاء قائمة بيانات تجريبية:
+
+```dart
+const List<BannerItem> defaultBanners = [
+  ...
+];
+```
+
+وتحتوي حاليًا على ثلاثة بنرات تجريبية.
+
+الهدف منها هو تشغيل التصميم بدون الحاجة إلى:
+
+```text
+mock_data.dart
+```
+
+---
+
+# 11. طريقة الحصول على البيانات
+
+أصبح:
+
+```dart
+List<BannerItem> get _items {
+  return widget.banners ?? defaultBanners;
+}
+```
+
+وهذا يعني:
+
+إذا تم تمرير بنرات من خارج Widget:
+
+```text
+widget.banners
+```
+
+سيتم استخدامها.
+
+وإذا لم يتم تمرير أي بيانات:
+
+```text
+defaultBanners
+```
+
+هي التي ستستخدم.
+
+---
+
+# 12. Auto Play
+
+تم الحفاظ على الحركة التلقائية للبنرات.
+
+يتم الانتقال كل:
+
+```text
+4 seconds
+```
+
+باستخدام:
+
+```dart
+Timer.periodic(
+  const Duration(seconds: 4),
+  ...
+);
+```
+
+والانتقال يتم بواسطة:
+
+```dart
+PageController
+```
+
+---
+
+# 13. PageView
+
+تم استخدام:
+
+```dart
+PageView.builder
+```
+
+لعرض البنرات والسماح للمستخدم بالسحب بينها.
+
+---
+
+# 14. مؤشر البنرات
+
+يوجد مؤشر أسفل البنر يوضح البنر الحالي.
+
+يتم تغيير حجمه حسب البنر الحالي:
+
+```dart
+width: active ? 20 : 6
+```
+
+مع:
+
+```dart
+AnimatedContainer
+```
+
+للحركة السلسة.
+
+---
+
+# 15. دعم العربية والإنجليزية
+
+العنوان والوصف يتغيران حسب لغة التطبيق.
+
+العربية:
+
+```dart
+banner.titleAr
+banner.subtitleAr
+```
+
+الإنجليزية:
+
+```dart
+banner.titleEn
+banner.subtitleEn
+```
+
+---
+
+# 16. دعم RTL
+
+تم تحديد اتجاه الواجهة:
+
+```dart
+final isRtl =
+    Directionality.of(context) == TextDirection.rtl;
+```
+
+وبناء عليه يتم تغيير سهم زر:
+
+```text
+تسوق الآن / Shop Now
+```
+
+---
+
+# 17. تصميم البنرات
+
+تم الحفاظ على التصميم الحديث ويتضمن:
+
+* Gradient.
+* صورة خلفية.
+* طبقة شفافة.
+* Border Radius.
+* Shadow.
+* دوائر زخرفية.
+* عنوان.
+* وصف.
+* كود الخصم.
+* زر تسوق الآن.
+
+---
+
+# 18. حماية القائمة الفارغة
+
+تمت إضافة معالجة في حالة عدم وجود بنرات:
+
+```dart
+if (_items.isEmpty) {
+  return SizedBox(
+    height: widget.height,
+  );
+}
+```
+
+حتى لا يحدث خطأ عند محاولة عرض قائمة فارغة.
+
+---
+
+# 19. تنظيف الموارد
+
+عند التخلص من Widget يتم إيقاف الـ Timer:
+
+```dart
+_timer?.cancel();
+```
+
+ويتم التخلص من:
+
+```dart
+_controller.dispose();
+```
+
+وهذا يمنع استمرار العمليات في الخلفية بعد إغلاق الصفحة.
+
+---
+
+# 20. اختبار المشروع بعد التعديل
+
+تم تشغيل المشروع من:
+
+```powershell
+C:\Users\hp\AndroidStudioProjects\floatingapp\floating
+```
+
+باستخدام:
+
+```powershell
+flutter run
+```
+
+والنتيجة:
+
+```text
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk
+Syncing files to device SM A515U
+```
+
+وهذا يعني:
+
+* Flutter Build نجح.
+* APK تم إنشاؤه.
+* التطبيق تم تثبيته.
+* التطبيق اشتغل على الهاتف.
+
+---
+
+# 21. رسائل ظهرت أثناء التشغيل
+
+ظهرت رسائل مثل:
+
+```text
+Skipped 129 frames
+Skipped 175 frames
+```
+
+وهذه ليست أخطاء Compile.
+
+تعني أن الجهاز كان مشغولًا أثناء بعض عمليات الرسم في وضع Debug.
+
+كما ظهرت:
+
+```text
+Width is zero
+```
+
+أثناء تهيئة واجهة Flutter.
+
+ولم تمنع التطبيق من التشغيل.
+
+---
+
+# 22. Firebase Authentication
+
+تم اختبار Firebase Authentication.
+
+ظهر في Log:
+
+```text
+FirebaseAuth:
+Notifying id token listeners about user
+```
+
+وهذا يدل على وجود جلسة مستخدم Firebase.
+
+---
+
+# 23. متطلبات الإنترنت
+
+تسجيل الدخول أو إنشاء حساب جديد باستخدام Firebase يحتاج إلى:
+
+```text
+Internet
+```
+
+أما العناصر المحلية مثل:
+
+* واجهات التطبيق.
+* الصور الموجودة داخل assets.
+* التنقل المحلي.
+* التصميم.
+
+فيمكن تشغيلها بدون إنترنت إذا لم تكن تعتمد على بيانات Firebase/API.
+
+---
+
+# 24. اختبار تم بنجاح
+
+تم اختبار الجزء الذي تم تعديله، وتشغيل المشروع على الجهاز.
+
+الحالة الحالية:
+
+```text
+Build: ✅
+Install: ✅
+Run: ✅
+BannerCarousel: ✅
+BannerItem: ✅
+defaultBanners: ✅
+AutoPlay: ✅
+PageView: ✅
+Arabic: ✅
+English: ✅
+RTL: ✅
+Firebase Authentication: ✅
+```
+
+---
+
+# 25. حالة mock_data.dart
+
+الملف:
+
+```text
+lib/data/mock_data.dart
+```
+
+تم حذفه.
+
+ولا يحتاج `BannerCarousel` إليه حاليًا.
+
+---
+
+# 26. التطوير المستقبلي
+
+البيانات الموجودة داخل:
+
+```text
+defaultBanners
+```
+
+هي بيانات تجريبية.
+
+في مرحلة لاحقة يمكن استبدالها ببيانات حقيقية من:
+
+```text
+Firestore
+```
+
+أو:
+
+```text
+API
+```
+
+بدون الحاجة إلى إعادة تصميم `BannerCarousel`.
+
+---
+
+# 27. قاعدة العمل في التعديلات القادمة
+
+عند ظهور أي خطأ:
+
+1. نحدد اسم الملف.
+2. نحدد رسالة الخطأ.
+3. نعرف سبب الخطأ.
+4. نعدل أقل عدد ممكن من الملفات.
+5. لا نحذف ملفًا يعمل إلا إذا كان هناك سبب واضح.
+6. بعد التعديل نشغل المشروع.
+7. نختبر الوظيفة على الهاتف.
+8. نسجل التعديل هنا.
+
+---
+
+# 28. أمر تشغيل المشروع
+
+من مجلد المشروع:
+
+```powershell
+cd C:\Users\hp\AndroidStudioProjects\floatingapp\floating
+```
+
+ثم:
+
+```powershell
+flutter run
+```
+
+---
+
+# 29. أوامر مفيدة
+
+تنظيف المشروع:
+
+```powershell
+flutter clean
+```
+
+تحميل Dependencies:
+
+```powershell
+flutter pub get
+```
+
+تشغيل المشروع:
+
+```powershell
+flutter run
+```
+
+فحص مشاكل Flutter:
+
+```powershell
+flutter doctor
+```
+
+---
+
+# 30. آخر حالة معروفة للمشروع
+
+المشروع حاليًا:
+
+```text
+Flutter App
+        │
+        ├── Firebase Authentication
+        │
+        ├── Provider
+        │
+        ├── Arabic / English
+        │
+        ├── Light / Dark / System
+        │
+        ├── Products
+        │
+        ├── Cart
+        │
+        ├── Favorites
+        │
+        ├── Profile
+        │
+        └── BannerCarousel
+                │
+                ├── BannerItem
+                ├── defaultBanners
+                ├── PageView
+                ├── AutoPlay
+                ├── Arabic / English
+                └── RTL / LTR
+```
+
+---
+
+## قاعدة مهمة
+
+**لا تحذف أو تعيد تسمية الملفات الحالية قبل التأكد من الملفات التي تستوردها.**
+
+إذا ظهر خطأ:
+
+```text
+Target of URI doesn't exist
+```
+
+فهذا يعني غالبًا أن هناك ملفًا تم حذفه أو تغير مساره بينما ما زال ملف آخر يستورده.
+
+وإذا ظهر:
+
+```text
+Undefined name
+```
+
+أو:
+
+```text
+The name 'X' isn't a type
+```
+
+فنبحث أولًا عن تعريف `X` والملف الذي كان يوفره قبل تعديل أي شيء.
+
+
+
+
+
+وهكذا تستطيع عندما يسألك الدكتور:
+
+"من أين تأتي صور المنتجات؟"
+
+تقول:
+
+صور المنتجات يتم الحصول عليها من الـ API، ويتم تمثيل بيانات المنتج باستخدام Product Model، ثم يتم عرض رابط الصورة باستخدام Image.network.
+
+وإذا سألك:
+
+"والـ Banner؟"
+
+تقول:
+
+الـ Banner عبارة عن محتوى ثابت داخل التطبيق، لذلك وضعته كـ local assets حتى لا يعتمد على الاتصال بالإنترنت.
+
+وهذا فصل منطقي جدًا بين البيانات الديناميكية والبيانات الثابتة.
+
+إذا كان هدفك الآن أن نجعل صور الـ Banner بنفس جودة وشكل صور المنتجات الموجودة عندك، فالخطوة التالية ليست تعديل BannerCarousel؛ أحتاج أن نعرف مصدر صور المنتجات الحالي أولًا، ثم نختار صور Banner مناسبة من نفس النمط ونضعها في المشروع.
+
+
+
+
+
+تم الانتهاء من جعل التطبيق Responsive بالكامل عبر الخطوات التالية:
+في شاشة الرئيسية (HomeScreen): تم استخدام LayoutBuilder و MediaQuery لتغيير عدد أعمدة المنتجات (Grid) تلقائياً (2 للهواتف، 3 للأجهزة اللوحية المتوسطة، و 4 للأجهزة اللوحية الكبيرة). كما تم تعديل أحجام الخطوط والحشوات (Padding) لتناسب الأجهزة الصغيرة والكبيرة.
+1.
+في البنرات (BannerCarousel): تم استخدام LayoutBuilder لجعل النصوص داخل البنر تتناسب طردياً مع عرض الشاشة، مما يمنع تداخل النصوص في الهواتف الصغيرة جداً ويجعلها تبدو فخمة في الأجهزة اللوحية.
+2.
+في قائمة المنتجات (ProductListingScreen): تم تحويل الشبكة الثابتة إلى شبكة متجاوبة تتكيف مع عرض الشاشة، مع تعديل نسبة العرض إلى الارتفاع (childAspectRatio) لضمان عدم تشوه بطاقات المنتجات.
+3.
+في تفاصيل المنتج (ProductDetailsScreen): تم تعديل معرض الصور (Gallery) ليزداد ارتفاعه في الأجهزة اللوحية ليعطي تجربة تصفح أفضل، مع الحفاظ على تناسق العناصر الأخرى.
+4.
+الآن التطبيق يعمل بكفاءة عالية وتصميم متناسق سواء كان المستخدم يستخدم هاتفاً قديماً صغير الحجم أو جهازاً لوحياً حديثاً.
